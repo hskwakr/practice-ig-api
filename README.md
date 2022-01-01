@@ -7,7 +7,7 @@ You can build the Docker image to test these PHP scripts.
 To start
 ```
 docker build -t my-php-app . && \
-docker run -d --name my-running-app -p 127.0.0.1:8080:80 --rm my-php-app
+docker run -d --rm -p 127.0.0.1:8080:80 --name my-running-app my-php-app
 ```
 
 To stop
