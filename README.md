@@ -12,6 +12,7 @@ docker run -d --name my-running-app my-php-app
 
 To stop
 ```
+docker stop my-running-app && \
 docker rm my-running-app && \
 docker rmi my-php-app
 ```
