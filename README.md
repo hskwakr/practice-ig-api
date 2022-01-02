@@ -6,14 +6,12 @@ You can build the Docker image to test these PHP scripts.
 
 To start:
 ```
-docker build -t my-php-app . && \
-docker run -d --rm -p 127.0.0.1:8080:80 --name my-running-app my-php-app
+docker-compose up -d
 ```
 
 You can check the PHP scripts by visiting `localhost:8080`.
 
 To stop:
 ```
-docker kill my-running-app && \
-docker rmi my-php-app
+docker-compose down -v
 ```
