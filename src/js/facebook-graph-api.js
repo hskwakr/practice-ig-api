@@ -1,3 +1,10 @@
+function getFbUserPages() {
+  // Get a collection of Facebook Pages 
+  FB.api('/me', {fields: 'accounts'}, function(response) {
+    // console.log(response.id);
+  });
+}
+
 // Switch the display of authentication link between login and logout
 function switchAuthLink(isLoggedin) {
   if (isLoggedin) { // During login
@@ -15,6 +22,7 @@ function switchAuthLink(isLoggedin) {
 function statusChangeCallback(response) {
   if (response.status === 'connected') {
     switchAuthLink(true);
+    getFbUserPages();
   } else {
     switchAuthLink(false);
   }
