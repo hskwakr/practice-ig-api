@@ -1,12 +1,27 @@
-function getFbUserPages() {
+import { FacebookGraphApi } from './facebook-graph-api.js';
+
+let graphApi = new FacebookGraphApi(); 
+
+export function getId() {
   // Get a collection of Facebook Pages 
   FB.api('/me', {fields: 'accounts'}, function(response) {
     // console.log(response.id);
   });
 }
 
+// Called with the results from FB.getLoginStatus()
+export function statusChangeCallback(response) {
+  if (response.status === 'connected') {
+    switchAuthLink(true);
+
+    // Run our script
+  } else {
+    switchAuthLink(false);
+  }
+}
+
 // Switch the display of authentication link between login and logout
-function switchAuthLink(isLoggedin) {
+export function switchAuthLink(isLoggedin) {
   if (isLoggedin) { // During login
     // hide login, show logout
     document.getElementById('fb-login').style.display = 'none';
@@ -18,25 +33,15 @@ function switchAuthLink(isLoggedin) {
   }
 }
 
-// Called with the results from FB.getLoginStatus()
-function statusChangeCallback(response) {
-  if (response.status === 'connected') {
-    switchAuthLink(true);
-    getFbUserPages();
-  } else {
-    switchAuthLink(false);
-  }
-}
-
 // Check whether the user already logged in
-function checkLoginState(response) {
+export function checkLoginState(response) {
   FB.getLoginStatus(function(response) {
     statusChangeCallback(response);
   });
 }
 
 // Logout from facebook
-function fbLogout() {
+export function fbLogout() {
   FB.logout(function() {
     switchAuthLink(false);
   });
