@@ -10,7 +10,7 @@ $appId = $_ENV['FB_APP_ID'];
 ?>
 
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
-<script src="js/facebook-graph-api.js"></script>
+<script src="js/facebook-api.js"></script>
 <script>
 window.fbAsyncInit = function() {
   // FB JavaScript SDK configuration and setup
