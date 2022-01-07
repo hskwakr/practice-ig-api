@@ -2,10 +2,14 @@ class FacebookGraphApi {
   pageId;
   igAccountId;
 
-  //function init() {}
-  //function getUserPagesId() {}
-  //function getIgBusinessAccountId() {}
-  //function getHashtagList() {}
+  init() {}
+
+  getUserPagesId(response) {
+    console.log(response.id);
+  }
+
+  getIgBusinessAccountId() {}
+  getHashtagList() {}
 }
 
 export { FacebookGraphApi }
