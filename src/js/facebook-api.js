@@ -1,9 +1,16 @@
+/* Facebook login flow
+ */
+
+// Set access token to form
+function setAccessToken(token) {
+}
+
 // Called with the results from FB.getLoginStatus()
 export function statusChangeCallback(response) {
   if (response.status === 'connected') {
     switchAuthLink(true);
 
-    // Run our script
+    setAccessToken(response.authResponse.accessToken);
   } else {
     switchAuthLink(false);
   }
@@ -11,14 +18,24 @@ export function statusChangeCallback(response) {
 
 // Switch the display of authentication link between login and logout
 export function switchAuthLink(isLoggedin) {
-  if (isLoggedin) { // During login
+  let login = document.getElementById('fb-login');
+  let logout = document.getElementById('fb-logout');
+  let igForm = document.getElementById('ig-form');
+
+  // During login
+  if (isLoggedin) {
     // hide login, show logout
-    document.getElementById('fb-login').style.display = 'none';
-    document.getElementById('fb-logout').style.display = 'block';
-  } else {          // During logout
+    login.style.display = 'none';
+    logout.style.display = 'block';
+
+    igForm.style.display = 'block';
+  // During logout
+  } else {
     // hide logout, show login
-    document.getElementById('fb-login').style.display = 'block';
-    document.getElementById('fb-logout').style.display = 'none';
+    login.style.display = 'block';
+    logout.style.display = 'none';
+
+    igForm.style.display = 'none';
   }
 }
 
