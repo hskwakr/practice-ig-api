@@ -41,3 +41,12 @@ window.fbAsyncInit = function() {
   onlogin="checkLoginState()"
 >
 </fb:login-button>
+
+<form id="ig-form" method="GET" action="">
+  <input type="hidden" name="accessToken" value="">
+
+  <label for="igHashtag">Hashtag name: </label>
+  <input type="text" name="igHashtag" value="">
+
+  <button type="submit">Get Posts</button>
+</form>
