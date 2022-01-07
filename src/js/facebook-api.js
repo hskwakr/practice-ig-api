@@ -1,14 +1,3 @@
-import { FacebookGraphApi } from './facebook-graph-api.js';
-
-let graphApi = new FacebookGraphApi(); 
-
-export function getId() {
-  // Get a collection of Facebook Pages 
-  FB.api('/me', {fields: 'accounts'}, function(response) {
-    // console.log(response.id);
-  });
-}
-
 // Called with the results from FB.getLoginStatus()
 export function statusChangeCallback(response) {
   if (response.status === 'connected') {
