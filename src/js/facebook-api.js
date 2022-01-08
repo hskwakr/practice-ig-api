@@ -1,8 +1,10 @@
 /* Facebook login flow
  */
 
-// Set access token to form
+// Set access token to hidden input in form
 function setAccessToken(token) {
+  let input = document.getElementById('accessToken');
+  input.setAttribute('value', token);
 }
 
 // Called with the results from FB.getLoginStatus()
