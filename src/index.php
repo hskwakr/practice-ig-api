@@ -43,7 +43,7 @@ window.fbAsyncInit = function() {
 </fb:login-button>
 
 <form id="ig-form" method="GET" action="">
-  <input type="hidden" name="accessToken" value="">
+  <input type="hidden" id="accessToken" name="accessToken" value="">
 
   <label for="igHashtag">Hashtag name: </label>
   <input type="text" name="igHashtag" value="">
