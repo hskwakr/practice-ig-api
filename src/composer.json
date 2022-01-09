@@ -1,6 +1,6 @@
 {
     "require": {
         "vlucas/phpdotenv": "^5.4",
-        "facebook/graph-sdk": "^5.7"
+        "nickdnk/graph-sdk": "^6.0"
     }
 }
