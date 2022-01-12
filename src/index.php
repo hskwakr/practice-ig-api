@@ -8,7 +8,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 //*************************************
-// Declaration
+// Const
 //*************************************
 define('APP_ID', $_ENV['FB_APP_ID']);
 define('APP_SECRET', $_ENV['FB_APP_SECRET']);
@@ -63,6 +63,44 @@ function getIgUser($pageId)
     return sendRequest($query);
 }
 
+function getIgMedia($userId)
+{
+    $endpoint = '/' . $userId . '/media?';
+    $options =
+        'access_token=' . APP_ACCESS_TOKEN;
+
+    $query = FB_API_BASE . $endpoint . $options;
+    //echo $query;
+    return sendRequest($query);
+}
+
+
+function searchHashtag($userId, $hashtag)
+{
+    $endpoint = '/ig_hashtag_search?';
+    $options =
+        'access_token=' . APP_ACCESS_TOKEN .
+        '&user_id=' . $userId .
+        '&q=' . $hashtag;
+
+    $query = FB_API_BASE . $endpoint . $options;
+    //echo $query;
+    return sendRequest($query);
+}
+
+function getRecentMediasByHashtag($userId, $hashtagId)
+{
+    $endpoint = '/' . $hashtagId . '/recent_media?';
+    $options =
+        'access_token=' . APP_ACCESS_TOKEN .
+        '&user_id=' . $userId .
+        '&fields=media_type,media_url,permalink';
+
+    $query = FB_API_BASE . $endpoint . $options;
+    //echo $query;
+    return sendRequest($query);
+}
+
 //*************************************
 // Main
 //*************************************
@@ -75,8 +113,26 @@ $userPages = getUserPages();
 $pageId = $userPages->data[0]->id;
 //echo $pageId;
 
+// get the page's instagram business account
 $igUser = getIgUser($pageId);
 //printJson($igUser);
 
+// capture the connected ig user id
 $igUserId = $igUser->instagram_business_account->id;
 //echo $igUserId;
+
+// get the instagram business account's media objects
+//$igMedias = getIgMedia($igUserId);
+//printJson($igMedias);
+
+// search the post by hashtag name
+$igHashtagContext = searchHashtag($igUserId, 'b3d');
+//printJson($igHashtagContext);
+
+// capture the hashtag id
+$igHashtagId = $igHashtagContext->data[0]->id;
+//echo $igHashtagId;
+
+// get the recent medias by hashtag id
+$igMedias = getRecentMediasByHashtag($igUserId, $igHashtagId);
+printJson($igMedias);
