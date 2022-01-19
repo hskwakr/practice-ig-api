@@ -27,45 +27,22 @@ class Ig_Api
         echo '</pre>';
     }
 
-    /**
-     * Initialize instagram api and get the id of instagram account.
-     */
-    public function init()
-    {
-        // get the user's pages
-        $userPages = getUserPages();
-        //printJson($userPages);
-
-        // capture the page id
-        $pageId = $userPages->data[0]->id;
-        //echo $pageId;
-
-        // get the page's instagram business account
-        $igUser = getIgUser($pageId);
-        //printJson($igUser);
-
-        // capture the connected ig user id
-        $igUserId = $igUser->instagram_business_account->id;
-        //echo $igUserId;
-    }
-
     private function sendRequest($query)
     {
         return $this->http_client->sendRequest($query);
     }
 
-    private function getUserPages()
+    public function getUserPages()
     {
         $endpoint = '/me/accounts?';
         $options =
         'access_token=' . $this->access_token;
 
         $query = $this->fb_api_base . $endpoint . $options;
-        //echo $query;
-        return sendRequest($query);
+        return $query;
     }
 
-    private function getIgUser($pageId)
+    public function getIgUser($pageId)
     {
         $endpoint = '/' . $pageId . '?';
         $options =
@@ -73,23 +50,10 @@ class Ig_Api
         '&fields=instagram_business_account';
 
         $query = $this->fb_api_base . $endpoint . $options;
-        //echo $query;
-        return sendRequest($query);
+        return $query;
     }
 
-    private function getIgMedia($userId)
-    {
-        $endpoint = '/' . $userId . '/media?';
-        $options =
-        'access_token=' . $this->access_token;
-
-        $query = $this->fb_api_base . $endpoint . $options;
-        //echo $query;
-        return sendRequest($query);
-    }
-
-
-    private function searchHashtag($userId, $hashtag)
+    public function searchHashtag($userId, $hashtag)
     {
         $endpoint = '/ig_hashtag_search?';
         $options =
@@ -98,11 +62,10 @@ class Ig_Api
         '&q=' . $hashtag;
 
         $query = $this->fb_api_base . $endpoint . $options;
-        //echo $query;
-        return sendRequest($query);
+        return $query;
     }
 
-    private function getRecentMediasByHashtag($userId, $hashtagId)
+    public function getRecentMediasByHashtag($userId, $hashtagId)
     {
         $endpoint = '/' . $hashtagId . '/recent_media?';
         $options =
@@ -111,7 +74,6 @@ class Ig_Api
         '&fields=media_type,media_url,permalink';
 
         $query = $this->fb_api_base . $endpoint . $options;
-        //echo $query;
-        return sendRequest($query);
+        return $query;
     }
 }
