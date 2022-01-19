@@ -4,8 +4,13 @@ session_start();
 
 require __DIR__ . '/vendor/autoload.php';
 
+// dotenv
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
+
+// ig api
+require_once 'Ig_Api.php';
+require_once 'Http_Client.php';
 
 //*************************************
 // Const
@@ -104,6 +109,9 @@ function getRecentMediasByHashtag($userId, $hashtagId)
 //*************************************
 // Main
 //*************************************
+
+// Initialize Ig api
+$api = new Ig_Api(new Http_Client(), APP_ACCESS_TOKEN);
 
 // get the user's pages
 $userPages = getUserPages();
