@@ -20,7 +20,7 @@ class Ig_Api
         $this->access_token = $token;
 
         require_once('Ig_Api_Query.php');
-        $this->query = new Ig_Api_Query($http_client, $token);
+        $this->query = new Ig_Api_Query($this->fb_api_base, $token);
     }
 
     // For DEBUG

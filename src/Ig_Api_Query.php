@@ -6,16 +6,14 @@
 class Ig_Api_Query
 {
     private $access_token;
-    private $http_client;
-
-    public $fb_api_base = 'https://graph.facebook.com/v12.0';
+    private $fb_api_base;
 
     /**
      * @param $dependencies
      */
-    public function __construct($http_client, $token)
+    public function __construct($api_base, $token)
     {
-        $this->http_client = $http_client;
+        $this->fb_api_base = $api_base;
         $this->access_token = $token;
     }
 
