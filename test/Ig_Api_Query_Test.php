@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-require_once dirname(__DIR__) . '/src/Ig_Api.php';
+require_once dirname(__DIR__) . '/src/Ig_Api_Query.php';
 require_once dirname(__DIR__) . '/src/Http_Client.php';
 
 use PHPUnit\Framework\TestCase;
 
-final class Ig_Api_Test extends TestCase
+final class Ig_Api_Query_Test extends TestCase
 {
     public function setUp(): void
     {
@@ -20,7 +20,7 @@ final class Ig_Api_Test extends TestCase
         // fake access token
         $token = 'this_is_fake_token';
 
-        $api = new Ig_Api($http, $token);
+        $api = new Ig_Api_Query($http, $token);
 
         $expected = 'https://graph.facebook.com/v12.0/me/accounts?access_token=' . $token;
 
@@ -36,7 +36,7 @@ final class Ig_Api_Test extends TestCase
         // fake page id
         $page_id = 'this_is_feke_page_id';
 
-        $api = new Ig_Api($http, $token);
+        $api = new Ig_Api_Query($http, $token);
 
         $expected = 'https://graph.facebook.com/v12.0/' . $page_id . '?access_token=' . $token . '&fields=instagram_business_account';
 
@@ -54,7 +54,7 @@ final class Ig_Api_Test extends TestCase
         // fake hashtag
         $hashtag = 'this_is_fake_hashtag';
 
-        $api = new Ig_Api($http, $token);
+        $api = new Ig_Api_Query($http, $token);
 
         $expected = 'https://graph.facebook.com/v12.0/ig_hashtag_search?access_token=' . $token . '&user_id=' . $user_id . '&q=' . $hashtag;
 
@@ -72,7 +72,7 @@ final class Ig_Api_Test extends TestCase
         // fake hashtag
         $hashtag_id = 'this_is_fake_hashtag_id';
 
-        $api = new Ig_Api($http, $token);
+        $api = new Ig_Api_Query($http, $token);
 
         $expected = 'https://graph.facebook.com/v12.0/' . $hashtag_id . '/recent_media?access_token=' . $token . '&user_id=' . $user_id . '&fields=media_type,media_url,permalink';
 
