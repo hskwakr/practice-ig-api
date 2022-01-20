@@ -9,73 +9,58 @@ use PHPUnit\Framework\TestCase;
 
 final class Ig_Api_Query_Test extends TestCase
 {
+    private $http;
+    private $token;
+    private $query;
+
     public function setUp(): void
     {
+        // fake http
+        $this->http = $this->createStub(Http_Client::class);
+        // fake access token
+        $this->token = 'this_is_fake_token';
+
+        $this->query = new Ig_Api_Query($this->http, $this->token);
     }
 
     public function testGetUserPages()
     {
-        // fake http
-        $http = $this->createStub(Http_Client::class);
-        // fake access token
-        $token = 'this_is_fake_token';
+        $expected = 'https://graph.facebook.com/v12.0/me/accounts?access_token=' . $this->token;
 
-        $api = new Ig_Api_Query($http, $token);
-
-        $expected = 'https://graph.facebook.com/v12.0/me/accounts?access_token=' . $token;
-
-        $this->assertSame($expected, $api->getUserPages());
+        $this->assertSame($expected, $this->query->getUserPages());
     }
 
     public function testGetIgUser()
     {
-        // fake http
-        $http = $this->createStub(Http_Client::class);
-        // fake access token
-        $token = 'this_is_fake_token';
         // fake page id
         $page_id = 'this_is_feke_page_id';
 
-        $api = new Ig_Api_Query($http, $token);
+        $expected = 'https://graph.facebook.com/v12.0/' . $page_id . '?access_token=' . $this->token . '&fields=instagram_business_account';
 
-        $expected = 'https://graph.facebook.com/v12.0/' . $page_id . '?access_token=' . $token . '&fields=instagram_business_account';
-
-        $this->assertSame($expected, $api->getIgUser($page_id));
+        $this->assertSame($expected, $this->query->getIgUser($page_id));
     }
 
     public function testSearchHashtag()
     {
-        // fake http
-        $http = $this->createStub(Http_Client::class);
-        // fake access token
-        $token = 'this_is_fake_token';
         // fake user id
         $user_id = 'this_is_fake_user_id';
         // fake hashtag
         $hashtag = 'this_is_fake_hashtag';
 
-        $api = new Ig_Api_Query($http, $token);
+        $expected = 'https://graph.facebook.com/v12.0/ig_hashtag_search?access_token=' . $this->token . '&user_id=' . $user_id . '&q=' . $hashtag;
 
-        $expected = 'https://graph.facebook.com/v12.0/ig_hashtag_search?access_token=' . $token . '&user_id=' . $user_id . '&q=' . $hashtag;
-
-        $this->assertSame($expected, $api->searchHashtag($user_id, $hashtag));
+        $this->assertSame($expected, $this->query->searchHashtag($user_id, $hashtag));
     }
 
     public function testGetRecentMediasByHashtag()
     {
-        // fake http
-        $http = $this->createStub(Http_Client::class);
-        // fake access token
-        $token = 'this_is_fake_token';
         // fake user id
         $user_id = 'this_is_fake_user_id';
         // fake hashtag
         $hashtag_id = 'this_is_fake_hashtag_id';
 
-        $api = new Ig_Api_Query($http, $token);
+        $expected = 'https://graph.facebook.com/v12.0/' . $hashtag_id . '/recent_media?access_token=' . $this->token . '&user_id=' . $user_id . '&fields=media_type,media_url,permalink';
 
-        $expected = 'https://graph.facebook.com/v12.0/' . $hashtag_id . '/recent_media?access_token=' . $token . '&user_id=' . $user_id . '&fields=media_type,media_url,permalink';
-
-        $this->assertSame($expected, $api->getRecentMediasByHashtag($user_id, $hashtag_id));
+        $this->assertSame($expected, $this->query->getRecentMediasByHashtag($user_id, $hashtag_id));
     }
 }
