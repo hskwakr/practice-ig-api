@@ -102,7 +102,7 @@ function getRecentMediasByHashtag($userId, $hashtagId)
         '&fields=media_type,media_url,permalink';
 
     $query = FB_API_BASE . $endpoint . $options;
-    echo $query;
+    //echo $query;
     return sendRequest($query);
 }
 
@@ -143,4 +143,4 @@ $igHashtagId = $igHashtagContext->data[0]->id;
 
 // get the recent medias by hashtag id
 $igMedias = getRecentMediasByHashtag($igUserId, $igHashtagId);
-//printJson($igMedias);
+printJson($igMedias);
