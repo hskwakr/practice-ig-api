@@ -8,14 +8,14 @@ namespace Ig_Api;
 class Ig_Api_Query
 {
     private $access_token;
-    private $fb_api_base;
+    private $base_url;
 
     /**
      * @param $dependencies
      */
-    public function __construct($api_base, $token)
+    public function __construct($base_url, $token)
     {
-        $this->fb_api_base = $api_base;
+        $this->base_url = $base_url;
         $this->access_token = $token;
     }
 
@@ -25,7 +25,7 @@ class Ig_Api_Query
         $options =
         'access_token=' . $this->access_token;
 
-        $query = $this->fb_api_base . $endpoint . $options;
+        $query = $this->base_url . $endpoint . $options;
         return $query;
     }
 
@@ -36,7 +36,7 @@ class Ig_Api_Query
         'access_token=' . $this->access_token .
         '&fields=instagram_business_account';
 
-        $query = $this->fb_api_base . $endpoint . $options;
+        $query = $this->base_url . $endpoint . $options;
         return $query;
     }
 
@@ -48,7 +48,7 @@ class Ig_Api_Query
         '&user_id=' . $userId .
         '&q=' . $hashtag;
 
-        $query = $this->fb_api_base . $endpoint . $options;
+        $query = $this->base_url . $endpoint . $options;
         return $query;
     }
 
@@ -60,7 +60,7 @@ class Ig_Api_Query
         '&user_id=' . $userId .
         '&fields=media_type,media_url,permalink';
 
-        $query = $this->fb_api_base . $endpoint . $options;
+        $query = $this->base_url . $endpoint . $options;
         return $query;
     }
 }

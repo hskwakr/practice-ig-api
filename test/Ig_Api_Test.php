@@ -16,7 +16,7 @@ final class Ig_Api_Test extends TestCase
     {
     }
 
-    public function testGetUserPages()
+    public function testGetUserPagesId()
     {
         $expected = '105319938693739';
 
