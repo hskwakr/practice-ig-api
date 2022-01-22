@@ -9,8 +9,10 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 // ig api
-require_once 'Ig_Api.php';
-require_once 'Http_Client.php';
+require_once 'Ig_Api/Ig_Api.php';
+require_once 'Ig_Api/Http_Client.php';
+use Ig_Api\Ig_Api;
+use Ig_Api\Http_Client;
 
 //*************************************
 // Const
@@ -115,18 +117,18 @@ $api = new Ig_Api(new Http_Client(), APP_ACCESS_TOKEN);
 
 // get the user's pages
 $userPages = getUserPages();
-//printJson($userPages);
+printJson($userPages);
 
 // capture the page id
-$pageId = $userPages->data[0]->id;
+//$pageId = $userPages->data[0]->id;
 //echo $pageId;
 
 // get the page's instagram business account
-$igUser = getIgUser($pageId);
+//$igUser = getIgUser($pageId);
 //printJson($igUser);
 
 // capture the connected ig user id
-$igUserId = $igUser->instagram_business_account->id;
+//$igUserId = $igUser->instagram_business_account->id;
 //echo $igUserId;
 
 // get the instagram business account's media objects
@@ -134,13 +136,13 @@ $igUserId = $igUser->instagram_business_account->id;
 //printJson($igMedias);
 
 // search the post by hashtag name
-$igHashtagContext = searchHashtag($igUserId, 'b3d');
+//$igHashtagContext = searchHashtag($igUserId, 'b3d');
 //printJson($igHashtagContext);
 
 // capture the hashtag id
-$igHashtagId = $igHashtagContext->data[0]->id;
+//$igHashtagId = $igHashtagContext->data[0]->id;
 //echo $igHashtagId;
 
 // get the recent medias by hashtag id
-$igMedias = getRecentMediasByHashtag($igUserId, $igHashtagId);
-printJson($igMedias);
+//$igMedias = getRecentMediasByHashtag($igUserId, $igHashtagId);
+//printJson($igMedias);

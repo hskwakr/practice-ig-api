@@ -1,5 +1,7 @@
 <?php
 
+namespace Ig_Api;
+
 /**
  * Class Ig_Api_Query
  */
