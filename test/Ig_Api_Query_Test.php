@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-require_once dirname(__DIR__) . '/src/Ig_Api_Query.php';
+namespace Ig_Api;
+
+require_once dirname(__DIR__) . '/src/Ig_Api/Ig_Api_Query.php';
 
 use PHPUnit\Framework\TestCase;
 
