@@ -30,7 +30,9 @@ final class Ig_Api_Test extends TestCase
 
         // fake response
         $response = json_decode(
-            '{ "data" : [{ "id" : "' . $expected . '" }] }'
+            '{ "data" : [{ "id" : "'
+            . $expected
+            . '" }] }'
         );
 
         // set method return
@@ -41,5 +43,27 @@ final class Ig_Api_Test extends TestCase
 
         // assert
         $this->assertSame($expected, $api->getUserPagesId());
+    }
+
+    public function testGetIgUserId()
+    {
+        $expected = 'this_is_fake_user_id';
+        $pages_id = 'this_is_fake_pages_id';
+
+        // fake response
+        $response = json_decode(
+            '{ "instagram_business_account" : { "id" : "'
+            . $expected
+            . '" } }'
+        );
+
+        // set method return
+        $this->http->method('sendRequest')->willReturn($response);
+
+        // init api
+        $api = new Ig_Api($this->http, $this->token);
+
+        // assert
+        $this->assertSame($expected, $api->getIgUserId($pages_id));
     }
 }

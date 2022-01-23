@@ -117,15 +117,15 @@ $api = new Ig_Api(new Http_Client(), APP_ACCESS_TOKEN);
 
 // get the user's pages
 $userPages = getUserPages();
-printJson($userPages);
+//printJson($userPages);
 
 // capture the page id
-//$pageId = $userPages->data[0]->id;
+$pageId = $userPages->data[0]->id;
 //echo $pageId;
 
 // get the page's instagram business account
-//$igUser = getIgUser($pageId);
-//printJson($igUser);
+$igUser = getIgUser($pageId);
+printJson($igUser);
 
 // capture the connected ig user id
 //$igUserId = $igUser->instagram_business_account->id;
