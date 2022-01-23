@@ -12,27 +12,34 @@ use Ig_Api\Http_Client;
 
 final class Ig_Api_Test extends TestCase
 {
+    private $token;
+    private $http;
+
     public function setUp(): void
     {
+        // fake access token
+        $this->token = 'this_is_fake_token';
+
+        // fake http client
+        $this->http = $this->createMock(Http_Client::class);
     }
 
     public function testGetUserPagesId()
     {
-        $expected = '105319938693739';
-
-        // fake access token
-        $token = 'this_is_fake_token';
+        $expected = 'this_is_fake_id';
 
         // fake response
         $response = json_decode(
             '{ "data" : [{ "id" : "' . $expected . '" }] }'
         );
 
-        // fake http client
-        $http = $this->createMock(Http_Client::class);
-        $http->method('sendRequest')->willReturn($response);
+        // set method return
+        $this->http->method('sendRequest')->willReturn($response);
 
-        $api = new Ig_Api($http, $token);
+        // init api
+        $api = new Ig_Api($this->http, $this->token);
+
+        // assert
         $this->assertSame($expected, $api->getUserPagesId());
     }
 }
