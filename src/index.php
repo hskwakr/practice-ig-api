@@ -125,10 +125,10 @@ $pageId = $userPages->data[0]->id;
 
 // get the page's instagram business account
 $igUser = getIgUser($pageId);
-printJson($igUser);
+//printJson($igUser);
 
 // capture the connected ig user id
-//$igUserId = $igUser->instagram_business_account->id;
+$igUserId = $igUser->instagram_business_account->id;
 //echo $igUserId;
 
 // get the instagram business account's media objects
@@ -136,8 +136,8 @@ printJson($igUser);
 //printJson($igMedias);
 
 // search the post by hashtag name
-//$igHashtagContext = searchHashtag($igUserId, 'b3d');
-//printJson($igHashtagContext);
+$igHashtagContext = searchHashtag($igUserId, 'b3d');
+printJson($igHashtagContext);
 
 // capture the hashtag id
 //$igHashtagId = $igHashtagContext->data[0]->id;

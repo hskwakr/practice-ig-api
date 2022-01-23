@@ -66,4 +66,27 @@ final class Ig_Api_Test extends TestCase
         // assert
         $this->assertSame($expected, $api->getIgUserId($pages_id));
     }
+
+    public function testSearchHashtagId()
+    {
+        $expected = 'this_is_fake_hashtag_id';
+        $user_id = 'this_is_fake_user_id';
+        $hashtag = 'this_is_fake_hashtag';
+
+        // fake response
+        $response = json_decode(
+            '{ "data" : [{ "id" : "'
+            . $expected
+            . '" }] }'
+        );
+
+        // set method return
+        $this->http->method('sendRequest')->willReturn($response);
+
+        // init api
+        $api = new Ig_Api($this->http, $this->token);
+
+        // assert
+        $this->assertSame($expected, $api->searchHashtagId($user_id, $hashtag));
+    }
 }
