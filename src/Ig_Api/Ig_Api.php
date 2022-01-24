@@ -56,7 +56,9 @@ class Ig_Api
 
     public function getRecentMediasByHashtag($userId, $hashtagId)
     {
-        return $this->sendRequest($this->query->getRecentMediasByHashtag($userId, $hashtagId));
+        $response = $this->sendRequest($this->query->getRecentMediasByHashtag($userId, $hashtagId));
+
+        return $response->data;
     }
 
     public function sendRequest($query)
