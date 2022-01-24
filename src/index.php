@@ -137,12 +137,12 @@ $igUserId = $igUser->instagram_business_account->id;
 
 // search the post by hashtag name
 $igHashtagContext = searchHashtag($igUserId, 'b3d');
-printJson($igHashtagContext);
+//printJson($igHashtagContext);
 
 // capture the hashtag id
-//$igHashtagId = $igHashtagContext->data[0]->id;
+$igHashtagId = $igHashtagContext->data[0]->id;
 //echo $igHashtagId;
 
 // get the recent medias by hashtag id
-//$igMedias = getRecentMediasByHashtag($igUserId, $igHashtagId);
-//printJson($igMedias);
+$igMedias = getRecentMediasByHashtag($igUserId, $igHashtagId);
+printJson($igMedias);

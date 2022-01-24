@@ -89,4 +89,38 @@ final class Ig_Api_Test extends TestCase
         // assert
         $this->assertSame($expected, $api->searchHashtagId($user_id, $hashtag));
     }
+
+    public function testGetRecentMediasByHashtag()
+    {
+        $user_id = 'this_is_fake_user_id';
+        $hashtag_id = 'this_is_fake_hashtag_id';
+
+        $expected = json_decode(
+            '{ "data" : [{'
+            . '"media_type" : "this_is_fake_type",'
+            . '"media_url" : "this_is_fake_url",'
+            . '"permalink" : "this_is_fake_permalink",'
+            . '"id" : "this_is_fake_id"'
+            . '}] }'
+        );
+
+        // fake response
+        $response = json_decode(
+            '{ "data" : [{'
+            . '"media_type": "' . $expected->data[0]->media_type . '",'
+            . '"media_url": "' . $expected->data[0]->media_url . '",'
+            . '"permalink": "' . $expected->data[0]->permalink . '",'
+            . '"id": "' . $expected->data[0]->id . '"'
+            . '}] }'
+        );
+
+        // set method return
+        $this->http->method('sendRequest')->willReturn($response);
+
+        // init api
+        $api = new Ig_Api($this->http, $this->token);
+
+        // assert
+        $this->assertEquals($expected->data, $api->getRecentMediasByHashtag($user_id, $hashtag_id));
+    }
 }
