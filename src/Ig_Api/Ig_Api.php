@@ -36,6 +36,11 @@ class Ig_Api
         echo '</pre>';
     }
 
+    public function sendRequest($query)
+    {
+        return $this->http_client->sendRequest($query);
+    }
+
     public function getUserPagesId()
     {
         $response = $this->sendRequest($this->query->getUserPages());
@@ -59,10 +64,5 @@ class Ig_Api
         $response = $this->sendRequest($this->query->getRecentMediasByHashtag($userId, $hashtagId));
 
         return $response->data;
-    }
-
-    public function sendRequest($query)
-    {
-        return $this->http_client->sendRequest($query);
     }
 }
