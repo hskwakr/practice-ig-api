@@ -27,38 +27,58 @@ define('FB_API_BASE', 'https://graph.facebook.com/v12.0');
 //*************************************
 // Function
 //*************************************
+function searchHashtag($name)
+{
+    // Initialize Ig api
+    $api = new Ig_Api(new Http_Client(), APP_ACCESS_TOKEN);
+
+    // Get user pages id for facebook pages
+    $pages_id = $api->getUserPagesId();
+    if (isset($pages_id->error)) {
+        $api->printJson($pages_id);
+        return null;
+    }
+    //echo $pages_id;
+
+    // Get user id for instagram business account
+    $user_id = $api->getIgUserId($pages_id);
+    if (isset($user_id->error)) {
+        $api->printJson($user_id);
+        return null;
+    }
+    //echo $user_id;
+
+    // Get hashtag id in instagram by hashtag name
+    $hashtag_id = $api->searchHashtagId($user_id, $name);
+    if (isset($hashtag_id->error)) {
+        $api->printJson($hashtag_id);
+        return null;
+    }
+    //echo $hashtag_id;
+
+    // Get recent medias that has specific hashtag in instagram by hashtag id
+    $medias = $api->getRecentMediasByHashtag($user_id, $hashtag_id);
+    if (isset($medias->error)) {
+        $api->printJson($medias);
+        return null;
+    }
+    //$api->printJson($medias);
+
+    return $medias;
+}
+
+// For DEBUG
+function printJson($json)
+{
+    echo '<pre>';
+    echo json_encode($json, JSON_PRETTY_PRINT);
+    echo '</pre>';
+}
 
 //*************************************
 // Main
 //*************************************
-
-// Initialize Ig api
-$api = new Ig_Api(new Http_Client(), APP_ACCESS_TOKEN);
-
-$pages_id = $api->getUserPagesId();
-if (isset($pages_id->error)) {
-    $api->printJson($pages_id);
-} else {
-    //echo $pages_id;
-    $user_id = $api->getIgUserId($pages_id);
-
-    if (isset($user_id->error)) {
-        $api->printJson($user_id);
-    } else {
-        //echo $user_id;
-        $hashtag_id = $api->searchHashtagId($user_id, 'b3d');
-
-        if (isset($hashtag_id->error)) {
-            $api->printJson($hashtag_id);
-        } else {
-            //echo $hashtag_id;
-            $medias = $api->getRecentMediasByHashtag($user_id, $hashtag_id);
-
-            if (isset($medias->error)) {
-                $api->printJson($medias);
-            } else {
-                $api->printJson($medias);
-            }
-        }
-    }
+$result = searchHashtag('hello');
+if (isset($result)) {
+    printJson($result);
 }
