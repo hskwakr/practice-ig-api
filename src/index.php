@@ -17,12 +17,7 @@ use Ig_Api\Http_Client;
 //*************************************
 // Const
 //*************************************
-define('APP_ID', $_ENV['FB_APP_ID']);
-define('APP_SECRET', $_ENV['FB_APP_SECRET']);
 define('APP_ACCESS_TOKEN', $_ENV['FB_APP_ACCESS_TOKEN']);
-define('REDIRECT_URI', $_ENV['FB_REDIRECT_URI']);
-
-define('FB_API_BASE', 'https://graph.facebook.com/v12.0');
 
 //*************************************
 // Function
