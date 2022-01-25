@@ -44,24 +44,43 @@ class Ig_Api
     public function getUserPagesId()
     {
         $response = $this->sendRequest($this->query->getUserPages());
+
+        if (isset($response->error)) {
+            return $response;
+        }
+
         return $response->data[0]->id;
     }
 
     public function getIgUserId($pageId)
     {
         $response = $this->sendRequest($this->query->getIgUser($pageId));
+
+        if (isset($response->error)) {
+            return $response;
+        }
+
         return $response->instagram_business_account->id;
     }
 
     public function searchHashtagId($userId, $hashtag)
     {
         $response = $this->sendRequest($this->query->searchHashtag($userId, $hashtag));
+
+        if (isset($response->error)) {
+            return $response;
+        }
+
         return $response->data[0]->id;
     }
 
     public function getRecentMediasByHashtag($userId, $hashtagId)
     {
         $response = $this->sendRequest($this->query->getRecentMediasByHashtag($userId, $hashtagId));
+
+        if (isset($response->error)) {
+            return $response;
+        }
 
         return $response->data;
     }
