@@ -85,6 +85,26 @@ final class Ig_Api_Test extends TestCase
         $this->assertSame($expected, $api->getIgUserId($pages_id));
     }
 
+    public function testGetIgUserId_ErrorHandling()
+    {
+        $pages_id = 'this_is_fake_pages_id';
+
+        // fake response
+        $response = json_decode(
+            '{ "error" : "something wrong" }'
+        );
+
+        // set method return
+        $this->http->method('sendRequest')->willReturn($response);
+
+        // init api
+        $api = new Ig_Api($this->http, $this->token);
+
+        // assert
+        $actual = isset($api->getIgUserId($pages_id)->error);
+        $this->assertTrue($actual);
+    }
+
     public function testSearchHashtagId()
     {
         $expected = 'this_is_fake_hashtag_id';
@@ -106,6 +126,27 @@ final class Ig_Api_Test extends TestCase
 
         // assert
         $this->assertSame($expected, $api->searchHashtagId($user_id, $hashtag));
+    }
+
+    public function testSearchHashtagId_ErrorHandling()
+    {
+        $user_id = 'this_is_fake_user_id';
+        $hashtag = 'this_is_fake_hashtag';
+
+        // fake response
+        $response = json_decode(
+            '{ "error" : "something wrong" }'
+        );
+
+        // set method return
+        $this->http->method('sendRequest')->willReturn($response);
+
+        // init api
+        $api = new Ig_Api($this->http, $this->token);
+
+        // assert
+        $actual = isset($api->searchHashtagId($user_id, $hashtag)->error);
+        $this->assertTrue($actual);
     }
 
     public function testGetRecentMediasByHashtag()
@@ -140,5 +181,26 @@ final class Ig_Api_Test extends TestCase
 
         // assert
         $this->assertEquals($expected->data, $api->getRecentMediasByHashtag($user_id, $hashtag_id));
+    }
+
+    public function testGetRecentMediasByHashtag_ErrorHandling()
+    {
+        $user_id = 'this_is_fake_user_id';
+        $hashtag_id = 'this_is_fake_hashtag_id';
+
+        // fake response
+        $response = json_decode(
+            '{ "error" : "something wrong" }'
+        );
+
+        // set method return
+        $this->http->method('sendRequest')->willReturn($response);
+
+        // init api
+        $api = new Ig_Api($this->http, $this->token);
+
+        // assert
+        $actual = isset($api->getRecentMediasByHashtag($user_id, $hashtag_id)->error);
+        $this->assertTrue($actual);
     }
 }
