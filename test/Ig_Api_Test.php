@@ -45,6 +45,24 @@ final class Ig_Api_Test extends TestCase
         $this->assertSame($expected, $api->getUserPagesId());
     }
 
+    public function testGetUserPagesId_ErrorHandling()
+    {
+        // fake response
+        $response = json_decode(
+            '{ "error" : "something wrong" }'
+        );
+
+        // set method return
+        $this->http->method('sendRequest')->willReturn($response);
+
+        // init api
+        $api = new Ig_Api($this->http, $this->token);
+
+        // assert
+        $actual = isset($api->getUserPagesId()->error);
+        $this->assertTrue($actual);
+    }
+
     public function testGetIgUserId()
     {
         $expected = 'this_is_fake_user_id';

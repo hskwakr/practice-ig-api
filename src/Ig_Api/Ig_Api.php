@@ -44,6 +44,11 @@ class Ig_Api
     public function getUserPagesId()
     {
         $response = $this->sendRequest($this->query->getUserPages());
+
+        if (isset($response->error)) {
+            return $response;
+        }
+
         return $response->data[0]->id;
     }
 
