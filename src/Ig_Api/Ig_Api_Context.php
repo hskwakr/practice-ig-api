@@ -6,9 +6,9 @@ use Ig_Api\Ig_Api_Query;
 use Ig_Api\Http_Client;
 
 /**
- * Class Ig_Api
+ * Class Ig_Api_Context
  */
-class Ig_Api
+class Ig_Api_Context
 {
     private $access_token;
     private $http_client;

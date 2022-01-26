@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Ig_Api;
 
-require_once dirname(__DIR__) . '/src/Ig_Api/Ig_Api.php';
+require_once dirname(__DIR__) . '/src/Ig_Api/Ig_Api_Context.php';
 require_once dirname(__DIR__) . '/src/Ig_Api/Http_Client.php';
 
 use PHPUnit\Framework\TestCase;
 use Ig_Api\Http_Client;
 
-final class Ig_Api_Test extends TestCase
+final class Ig_Api_Context_Test extends TestCase
 {
     private $token;
     private $http;
@@ -39,7 +39,7 @@ final class Ig_Api_Test extends TestCase
         $this->http->method('sendRequest')->willReturn($response);
 
         // init api
-        $api = new Ig_Api($this->http, $this->token);
+        $api = new Ig_Api_Context($this->http, $this->token);
 
         // assert
         $this->assertSame($expected, $api->getUserPagesId());
@@ -56,7 +56,7 @@ final class Ig_Api_Test extends TestCase
         $this->http->method('sendRequest')->willReturn($response);
 
         // init api
-        $api = new Ig_Api($this->http, $this->token);
+        $api = new Ig_Api_Context($this->http, $this->token);
 
         // assert
         $actual = isset($api->getUserPagesId()->error);
@@ -79,7 +79,7 @@ final class Ig_Api_Test extends TestCase
         $this->http->method('sendRequest')->willReturn($response);
 
         // init api
-        $api = new Ig_Api($this->http, $this->token);
+        $api = new Ig_Api_Context($this->http, $this->token);
 
         // assert
         $this->assertSame($expected, $api->getIgUserId($pages_id));
@@ -98,7 +98,7 @@ final class Ig_Api_Test extends TestCase
         $this->http->method('sendRequest')->willReturn($response);
 
         // init api
-        $api = new Ig_Api($this->http, $this->token);
+        $api = new Ig_Api_Context($this->http, $this->token);
 
         // assert
         $actual = isset($api->getIgUserId($pages_id)->error);
@@ -122,7 +122,7 @@ final class Ig_Api_Test extends TestCase
         $this->http->method('sendRequest')->willReturn($response);
 
         // init api
-        $api = new Ig_Api($this->http, $this->token);
+        $api = new Ig_Api_Context($this->http, $this->token);
 
         // assert
         $this->assertSame($expected, $api->searchHashtagId($user_id, $hashtag));
@@ -142,7 +142,7 @@ final class Ig_Api_Test extends TestCase
         $this->http->method('sendRequest')->willReturn($response);
 
         // init api
-        $api = new Ig_Api($this->http, $this->token);
+        $api = new Ig_Api_Context($this->http, $this->token);
 
         // assert
         $actual = isset($api->searchHashtagId($user_id, $hashtag)->error);
@@ -177,7 +177,7 @@ final class Ig_Api_Test extends TestCase
         $this->http->method('sendRequest')->willReturn($response);
 
         // init api
-        $api = new Ig_Api($this->http, $this->token);
+        $api = new Ig_Api_Context($this->http, $this->token);
 
         // assert
         $this->assertEquals($expected->data, $api->getRecentMediasByHashtag($user_id, $hashtag_id));
@@ -197,7 +197,7 @@ final class Ig_Api_Test extends TestCase
         $this->http->method('sendRequest')->willReturn($response);
 
         // init api
-        $api = new Ig_Api($this->http, $this->token);
+        $api = new Ig_Api_Context($this->http, $this->token);
 
         // assert
         $actual = isset($api->getRecentMediasByHashtag($user_id, $hashtag_id)->error);
