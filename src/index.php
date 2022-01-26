@@ -9,9 +9,9 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 // ig api
-require_once 'Ig_Api/Ig_Api.php';
+require_once 'Ig_Api/Ig_Api_Context.php';
 require_once 'Ig_Api/Http_Client.php';
-use Ig_Api\Ig_Api;
+use Ig_Api\Ig_Api_Context;
 use Ig_Api\Http_Client;
 
 //*************************************
@@ -25,7 +25,7 @@ define('APP_ACCESS_TOKEN', $_ENV['FB_APP_ACCESS_TOKEN']);
 function searchHashtag($name)
 {
     // Initialize Ig api
-    $api = new Ig_Api(new Http_Client(), APP_ACCESS_TOKEN);
+    $api = new Ig_Api_Context(new Http_Client(), APP_ACCESS_TOKEN);
 
     // Get user pages id for facebook pages
     $pages_id = $api->getUserPagesId();
