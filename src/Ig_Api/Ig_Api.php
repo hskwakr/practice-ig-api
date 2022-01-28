@@ -51,9 +51,12 @@ class Ig_Api
     public function init()
     {
         // Get user pages id for facebook pages
-        $this->pages_id = $this->ctx->getUserPagesId();
+        $this->pages_id = $this->ctx
+                               ->getUserPagesId();
+
         // Get user id for instagram business account
-        $this->user_id = $this->ctx->getIgUserId($this->pages_id);
+        $this->user_id = $this->ctx
+                              ->getIgUserId($this->pages_id);
 
         return $this;
     }
@@ -67,9 +70,17 @@ class Ig_Api
     public function searchHashtag(string $name)
     {
         // Get hashtag id in instagram by hashtag name
-        $this->hashtag_id = $this->ctx->searchHashtagId($this->user_id, $name);
-        // Get recent medias that has specific hashtag in instagram by hashtag id
-        $this->recent_medias = $this->ctx->getRecentMediasByHashtag($this->user_id, $this->hashtag_id);
+        $this->hashtag_id =
+            $this->ctx
+                 ->searchHashtagId($this->user_id, $name);
+
+        // Get recent medias that has specific hashtag in instagram
+        $this->recent_medias =
+            $this->ctx
+                 ->getRecentMediasByHashtag(
+                     $this->user_id,
+                     $this->hashtag_id
+                 );
 
         return $this;
     }
