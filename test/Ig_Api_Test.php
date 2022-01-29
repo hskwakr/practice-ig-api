@@ -55,6 +55,48 @@ final class Ig_Api_Test extends TestCase
         );
     }
 
+    public function testSearchHashtag()
+    {
+        $name = 'this_is_fake_name';
+        $hashtag_id = 'this_is_fake_hashtag_id';
+        $recent_medias = json_decode(
+            '[{'
+            . '"media_type" : "this_is_fake_type",'
+            . '"media_url" : "this_is_fake_url",'
+            . '"permalink" : "this_is_fake_permalink",'
+            . '"id" : "this_is_fake_id"'
+            . '}]'
+        );
+
+        // set method return
+        $this->ctx
+             ->method('searchHashtagId')
+             ->willReturn($hashtag_id);
+
+        $this->ctx
+             ->method('getRecentMediasByHashtag')
+             ->willReturn($recent_medias);
+
+        // init api
+        $api = new Ig_Api($this->token);
+        $api = $api->setContext($this->ctx);
+
+        // assert
+        $this->assertSame(
+            $hashtag_id,
+            $api->init()
+                ->searchHashtag($name)
+                ->hashtag_id
+        );
+
+        $this->assertEquals(
+            $recent_medias,
+            $api->init()
+                ->searchHashtag($name)
+                ->recent_medias
+        );
+    }
+
     public function testInit_ErrorHandling_PagesId()
     {
         $pages_id_error =
@@ -118,48 +160,6 @@ final class Ig_Api_Test extends TestCase
             $expected,
             $api->init()
                 ->error
-        );
-    }
-
-    public function testSearchHashtag()
-    {
-        $name = 'this_is_fake_name';
-        $hashtag_id = 'this_is_fake_hashtag_id';
-        $recent_medias = json_decode(
-            '[{'
-            . '"media_type" : "this_is_fake_type",'
-            . '"media_url" : "this_is_fake_url",'
-            . '"permalink" : "this_is_fake_permalink",'
-            . '"id" : "this_is_fake_id"'
-            . '}]'
-        );
-
-        // set method return
-        $this->ctx
-             ->method('searchHashtagId')
-             ->willReturn($hashtag_id);
-
-        $this->ctx
-             ->method('getRecentMediasByHashtag')
-             ->willReturn($recent_medias);
-
-        // init api
-        $api = new Ig_Api($this->token);
-        $api = $api->setContext($this->ctx);
-
-        // assert
-        $this->assertSame(
-            $hashtag_id,
-            $api->init()
-                ->searchHashtag($name)
-                ->hashtag_id
-        );
-
-        $this->assertEquals(
-            $recent_medias,
-            $api->init()
-                ->searchHashtag($name)
-                ->recent_medias
         );
     }
 }
