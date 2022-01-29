@@ -55,6 +55,72 @@ final class Ig_Api_Test extends TestCase
         );
     }
 
+    public function testInit_ErrorHandling_PagesId()
+    {
+        $pages_id_error =
+            '{ "message" : "could not get pages id" }';
+        $user_id_error =
+            '{ "message" : "could not get user id" }';
+
+        // set method return
+        $response = json_decode(
+            '{ "error" : ' . $pages_id_error . ' }'
+        );
+        $this->ctx
+             ->method('getUserPagesId')
+             ->willReturn($response);
+
+        $response = json_decode(
+            '{ "error" : ' . $user_id_error . ' }'
+        );
+        $this->ctx
+             ->method('getIgUserId')
+             ->willReturn($response);
+
+        // init api
+        $api = new Ig_Api($this->token);
+        $api = $api->setContext($this->ctx);
+
+        // assert
+        $expected = json_decode($pages_id_error);
+        $this->assertEquals(
+            $expected,
+            $api->init()
+                ->error
+        );
+    }
+
+    public function testInit_ErrorHandling_UserId()
+    {
+        $pages_id = 'this_is_fake_pages_id';
+        $user_id_error =
+            '{ "message" : "could not get user id" }';
+
+        // set method return
+        $this->ctx
+             ->method('getUserPagesId')
+             ->willReturn($pages_id);
+
+        $response = json_decode(
+            '{ "error" : ' . $user_id_error . ' }'
+        );
+        $this->ctx
+             ->method('getIgUserId')
+             ->willReturn($response);
+
+        // init api
+        $api = new Ig_Api($this->token);
+        $api = $api->setContext($this->ctx);
+
+        // assert
+        $expected = json_decode($user_id_error);
+        $this->assertEquals(
+            $expected,
+            $api->init()
+                ->error
+        );
+    }
+
     public function testSearchHashtag()
     {
         $name = 'this_is_fake_name';

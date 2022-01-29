@@ -15,6 +15,8 @@ class Ig_Api
     // instagram api context
     private $ctx;
 
+    // error massage from api
+    public $error;
     // user pages id for facebook pages
     public $pages_id;
     // user id for instagram business account
@@ -50,13 +52,28 @@ class Ig_Api
      */
     public function init()
     {
+        // Ignore error
+        if (!empty($this->error)) {
+            $this->error = null;
+        }
+
         // Get user pages id for facebook pages
         $this->pages_id = $this->ctx
                                ->getUserPagesId();
+        // error handling
+        if (isset($this->pages_id->error)) {
+            $this->error = $this->pages_id->error;
+            return $this;
+        }
 
         // Get user id for instagram business account
         $this->user_id = $this->ctx
                               ->getIgUserId($this->pages_id);
+        // error handling
+        if (isset($this->user_id->error)) {
+            $this->error = $this->user_id->error;
+            return $this;
+        }
 
         return $this;
     }
@@ -69,6 +86,11 @@ class Ig_Api
      */
     public function searchHashtag(string $name)
     {
+        // if it has already error, return
+        if (!empty($this->error)) {
+            return $this;
+        }
+
         // Get hashtag id in instagram by hashtag name
         $this->hashtag_id =
             $this->ctx
