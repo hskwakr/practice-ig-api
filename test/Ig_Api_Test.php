@@ -96,4 +96,166 @@ final class Ig_Api_Test extends TestCase
                 ->recent_medias
         );
     }
+
+    public function testInit_ErrorHandling_PagesId()
+    {
+        $pages_id_error =
+            '{ "message" : "could not get pages id" }';
+        $user_id_error =
+            '{ "message" : "could not get user id" }';
+
+        // set method return
+        $response = json_decode(
+            '{ "error" : ' . $pages_id_error . ' }'
+        );
+        $this->ctx
+             ->method('getUserPagesId')
+             ->willReturn($response);
+
+        $response = json_decode(
+            '{ "error" : ' . $user_id_error . ' }'
+        );
+        $this->ctx
+             ->method('getIgUserId')
+             ->willReturn($response);
+
+        // init api
+        $api = new Ig_Api($this->token);
+        $api = $api->setContext($this->ctx);
+
+        // assert
+        $expected = json_decode($pages_id_error);
+        $this->assertEquals(
+            $expected,
+            $api->init()
+                ->error
+        );
+    }
+
+    public function testInit_ErrorHandling_UserId()
+    {
+        $pages_id = 'this_is_fake_pages_id';
+        $user_id_error =
+            '{ "message" : "could not get user id" }';
+
+        // set method return
+        $this->ctx
+             ->method('getUserPagesId')
+             ->willReturn($pages_id);
+
+        $response = json_decode(
+            '{ "error" : ' . $user_id_error . ' }'
+        );
+        $this->ctx
+             ->method('getIgUserId')
+             ->willReturn($response);
+
+        // init api
+        $api = new Ig_Api($this->token);
+        $api = $api->setContext($this->ctx);
+
+        // assert
+        $expected = json_decode($user_id_error);
+        $this->assertEquals(
+            $expected,
+            $api->init()
+                ->error
+        );
+    }
+
+    public function testSearchHashtag_ErrorHandling_Init()
+    {
+        $name = 'this_is_fake_name';
+
+        // for init
+        $pages_id = 'this_is_fake_pages_id';
+        $user_id_error =
+            '{ "message" : "could not get user id" }';
+
+        // set method return
+        $this->ctx
+             ->method('getUserPagesId')
+             ->willReturn($pages_id);
+
+        $response = json_decode(
+            '{ "error" : ' . $user_id_error . ' }'
+        );
+        $this->ctx
+             ->method('getIgUserId')
+             ->willReturn($response);
+
+        // init api
+        $api = new Ig_Api($this->token);
+        $api = $api->setContext($this->ctx);
+
+        // assert
+        $expected = json_decode($user_id_error);
+        $this->assertEquals(
+            $expected,
+            $api->init()
+                ->searchHashtag($name)
+                ->error
+        );
+    }
+
+    public function testSearchHashtag_ErrorHandling_HashtagId()
+    {
+        $name = 'this_is_fake_name';
+        $hashtag_id_error =
+            '{ "message" : "could not get hashtag id" }';
+
+        // set method return
+        $response = json_decode(
+            '{ "error" : ' . $hashtag_id_error . ' }'
+        );
+        $this->ctx
+             ->method('searchHashtagId')
+             ->willReturn($response);
+
+        // init api
+        $api = new Ig_Api($this->token);
+        $api = $api->setContext($this->ctx);
+
+        // assert
+        $expected = json_decode($hashtag_id_error);
+        $this->assertEquals(
+            $expected,
+            $api->init()
+                ->searchHashtag($name)
+                ->error
+        );
+    }
+
+    public function testSearchHashtag_ErrorHandling_Medias()
+    {
+        $name = 'this_is_fake_name';
+        $hashtag_id = 'this_is_fake_hashtag_id';
+        $recent_medias_error =
+            '{ "message" : "could not get recent medias" }';
+
+        // set method return
+        $this->ctx
+             ->method('searchHashtagId')
+             ->willReturn($hashtag_id);
+
+        $response = json_decode(
+            '{ "error" : ' . $recent_medias_error . ' }'
+        );
+        $this->ctx
+             ->method('getRecentMediasByHashtag')
+             ->willReturn($response);
+
+        // init api
+        $api = new Ig_Api($this->token);
+        $api = $api->setContext($this->ctx);
+
+        // assert
+        $expected = json_decode($recent_medias_error);
+        $this->assertEquals(
+            $expected,
+            $api->init()
+                ->searchHashtag($name)
+                ->error
+        );
+    }
 }
