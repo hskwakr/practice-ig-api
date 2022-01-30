@@ -108,6 +108,11 @@ class Ig_Api
                      $this->user_id,
                      $this->hashtag_id
                  );
+        // error handling
+        if (isset($this->recent_medias->error)) {
+            $this->error = $this->recent_medias->error;
+            return $this;
+        }
 
         return $this;
     }

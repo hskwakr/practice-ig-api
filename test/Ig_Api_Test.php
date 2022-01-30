@@ -225,4 +225,37 @@ final class Ig_Api_Test extends TestCase
                 ->error
         );
     }
+
+    public function testSearchHashtag_ErrorHandling_Medias()
+    {
+        $name = 'this_is_fake_name';
+        $hashtag_id = 'this_is_fake_hashtag_id';
+        $recent_medias_error =
+            '{ "message" : "could not get recent medias" }';
+
+        // set method return
+        $this->ctx
+             ->method('searchHashtagId')
+             ->willReturn($hashtag_id);
+
+        $response = json_decode(
+            '{ "error" : ' . $recent_medias_error . ' }'
+        );
+        $this->ctx
+             ->method('getRecentMediasByHashtag')
+             ->willReturn($response);
+
+        // init api
+        $api = new Ig_Api($this->token);
+        $api = $api->setContext($this->ctx);
+
+        // assert
+        $expected = json_decode($recent_medias_error);
+        $this->assertEquals(
+            $expected,
+            $api->init()
+                ->searchHashtag($name)
+                ->error
+        );
+    }
 }
