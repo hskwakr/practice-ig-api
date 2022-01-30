@@ -95,6 +95,11 @@ class Ig_Api
         $this->hashtag_id =
             $this->ctx
                  ->searchHashtagId($this->user_id, $name);
+        // error handling
+        if (isset($this->hashtag_id->error)) {
+            $this->error = $this->hashtag_id->error;
+            return $this;
+        }
 
         // Get recent medias that has specific hashtag in instagram
         $this->recent_medias =
