@@ -45,6 +45,18 @@ class Ig_Api
         return $this;
     }
 
+
+    /**
+     * Check whether has error or not.
+     *
+     * @return bool:    true    error
+     *                  false   no error
+     */
+    public function hasError()
+    {
+        return !empty($this->error);
+    }
+
     /**
      * Init facebook graph api.
      *
