@@ -258,4 +258,27 @@ final class Ig_Api_Test extends TestCase
                 ->error
         );
     }
+    public function testHasError()
+    {
+        $pages_id_error =
+            '{ "message" : "could not get pages id" }';
+
+        // set method return
+        $response = json_decode(
+            '{ "error" : ' . $pages_id_error . ' }'
+        );
+        $this->ctx
+             ->method('getUserPagesId')
+             ->willReturn($response);
+
+        // init api
+        $api = new Ig_Api($this->token);
+        $api = $api->setContext($this->ctx);
+
+        // assert
+        $this->assertTrue(
+            $api->init()
+                ->hasError()
+        );
+    }
 }
