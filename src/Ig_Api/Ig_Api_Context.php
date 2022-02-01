@@ -2,6 +2,7 @@
 
 namespace Ig_Api;
 
+use Exception;
 use Ig_Api\Ig_Api_Query;
 use Ig_Api\Http_Client;
 
@@ -46,7 +47,7 @@ class Ig_Api_Context
         $response = $this->sendRequest($this->query->getUserPages());
 
         if (isset($response->error)) {
-            return $response;
+            throw new Exception('Failed to get user pages');
         }
 
         return $response->data[0]->id;
@@ -57,7 +58,7 @@ class Ig_Api_Context
         $response = $this->sendRequest($this->query->getIgUser($pageId));
 
         if (isset($response->error)) {
-            return $response;
+            throw new Exception('Failed to get user id');
         }
 
         return $response->instagram_business_account->id;
@@ -68,7 +69,7 @@ class Ig_Api_Context
         $response = $this->sendRequest($this->query->searchHashtag($userId, $hashtag));
 
         if (isset($response->error)) {
-            return $response;
+            throw new Exception('Failed to search hashtag id');
         }
 
         return $response->data[0]->id;
@@ -79,7 +80,7 @@ class Ig_Api_Context
         $response = $this->sendRequest($this->query->getRecentMediasByHashtag($userId, $hashtagId));
 
         if (isset($response->error)) {
-            return $response;
+            throw new Exception('Failed to get recent medias by hashtag');
         }
 
         return $response->data;

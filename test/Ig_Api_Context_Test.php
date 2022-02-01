@@ -7,6 +7,7 @@ namespace Ig_Api;
 require_once dirname(__DIR__) . '/src/Ig_Api/Ig_Api_Context.php';
 require_once dirname(__DIR__) . '/src/Ig_Api/Http_Client.php';
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Ig_Api\Http_Client;
 
@@ -59,8 +60,8 @@ final class Ig_Api_Context_Test extends TestCase
         $api = new Ig_Api_Context($this->http, $this->token);
 
         // assert
-        $actual = isset($api->getUserPagesId()->error);
-        $this->assertTrue($actual);
+        $this->expectException(Exception::class);
+        $api->getUserPagesId();
     }
 
     public function testGetIgUserId()
@@ -101,8 +102,8 @@ final class Ig_Api_Context_Test extends TestCase
         $api = new Ig_Api_Context($this->http, $this->token);
 
         // assert
-        $actual = isset($api->getIgUserId($pages_id)->error);
-        $this->assertTrue($actual);
+        $this->expectException(Exception::class);
+        $api->getIgUserId($pages_id);
     }
 
     public function testSearchHashtagId()
@@ -145,8 +146,8 @@ final class Ig_Api_Context_Test extends TestCase
         $api = new Ig_Api_Context($this->http, $this->token);
 
         // assert
-        $actual = isset($api->searchHashtagId($user_id, $hashtag)->error);
-        $this->assertTrue($actual);
+        $this->expectException(Exception::class);
+        $api->searchHashtagId($user_id, $hashtag);
     }
 
     public function testGetRecentMediasByHashtag()
@@ -200,7 +201,7 @@ final class Ig_Api_Context_Test extends TestCase
         $api = new Ig_Api_Context($this->http, $this->token);
 
         // assert
-        $actual = isset($api->getRecentMediasByHashtag($user_id, $hashtag_id)->error);
-        $this->assertTrue($actual);
+        $this->expectException(Exception::class);
+        $api->getRecentMediasByHashtag($user_id, $hashtag_id);
     }
 }
