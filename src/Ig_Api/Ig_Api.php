@@ -102,6 +102,10 @@ class Ig_Api
      */
     private function error(string $msg, Throwable $e)
     {
-        throw new Exception($msg . ': ', 0, $e->getPrevious());
+        throw new Exception(
+            $msg . ': ' . $e->__toString(),
+            0,
+            $e->getPrevious()
+        );
     }
 }

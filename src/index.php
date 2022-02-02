@@ -22,12 +22,16 @@ define('APP_ACCESS_TOKEN', $_ENV['FB_APP_ACCESS_TOKEN']);
 //*************************************
 function searchHashtag($name)
 {
-    // Initialize Ig api
-    $api = new Ig_Api(APP_ACCESS_TOKEN);
-    // get medias
-    $res = $api->init()->searchHashtag($name);
-
-    return $res->recent_medias;
+    try {
+        // Initialize Ig api
+        $api = new Ig_Api(APP_ACCESS_TOKEN);
+        // get medias
+        $res = $api->init()->searchHashtag($name);
+        return $res->recent_medias;
+    } catch (Exception $e) {
+        echo $e->__toString();
+        return null;
+    }
 }
 
 // For DEBUG
