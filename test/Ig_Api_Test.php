@@ -7,6 +7,7 @@ namespace Ig_Api;
 require_once dirname(__DIR__) . '/src/Ig_Api/Ig_Api.php';
 require_once dirname(__DIR__) . '/src/Ig_Api/Ig_Api_Context.php';
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Ig_Api\Ig_Api_Context;
 
@@ -99,186 +100,80 @@ final class Ig_Api_Test extends TestCase
 
     public function testInit_ErrorHandling_PagesId()
     {
-        $pages_id_error =
-            '{ "message" : "could not get pages id" }';
-        $user_id_error =
-            '{ "message" : "could not get user id" }';
-
-        // set method return
-        $response = json_decode(
-            '{ "error" : ' . $pages_id_error . ' }'
-        );
-        $this->ctx
-             ->method('getUserPagesId')
-             ->willReturn($response);
-
-        $response = json_decode(
-            '{ "error" : ' . $user_id_error . ' }'
-        );
         $this->ctx
              ->method('getIgUserId')
-             ->willReturn($response);
+             ->will($this->throwException(new Exception()));
 
         // init api
         $api = new Ig_Api($this->token);
         $api = $api->setContext($this->ctx);
 
         // assert
-        $expected = json_decode($pages_id_error);
-        $this->assertEquals(
-            $expected,
-            $api->init()
-                ->error
-        );
+        $this->expectException(Exception::class);
+        $api->init();
     }
 
     public function testInit_ErrorHandling_UserId()
     {
-        $pages_id = 'this_is_fake_pages_id';
-        $user_id_error =
-            '{ "message" : "could not get user id" }';
-
-        // set method return
-        $this->ctx
-             ->method('getUserPagesId')
-             ->willReturn($pages_id);
-
-        $response = json_decode(
-            '{ "error" : ' . $user_id_error . ' }'
-        );
         $this->ctx
              ->method('getIgUserId')
-             ->willReturn($response);
+             ->will($this->throwException(new Exception()));
 
         // init api
         $api = new Ig_Api($this->token);
         $api = $api->setContext($this->ctx);
 
         // assert
-        $expected = json_decode($user_id_error);
-        $this->assertEquals(
-            $expected,
-            $api->init()
-                ->error
-        );
+        $this->expectException(Exception::class);
+        $api->init();
     }
 
     public function testSearchHashtag_ErrorHandling_Init()
     {
         $name = 'this_is_fake_name';
 
-        // for init
-        $pages_id = 'this_is_fake_pages_id';
-        $user_id_error =
-            '{ "message" : "could not get user id" }';
-
-        // set method return
-        $this->ctx
-             ->method('getUserPagesId')
-             ->willReturn($pages_id);
-
-        $response = json_decode(
-            '{ "error" : ' . $user_id_error . ' }'
-        );
         $this->ctx
              ->method('getIgUserId')
-             ->willReturn($response);
+             ->will($this->throwException(new Exception()));
 
         // init api
         $api = new Ig_Api($this->token);
         $api = $api->setContext($this->ctx);
 
         // assert
-        $expected = json_decode($user_id_error);
-        $this->assertEquals(
-            $expected,
-            $api->init()
-                ->searchHashtag($name)
-                ->error
-        );
+        $this->expectException(Exception::class);
+        $api->init()->searchHashtag($name);
     }
 
     public function testSearchHashtag_ErrorHandling_HashtagId()
     {
         $name = 'this_is_fake_name';
-        $hashtag_id_error =
-            '{ "message" : "could not get hashtag id" }';
-
-        // set method return
-        $response = json_decode(
-            '{ "error" : ' . $hashtag_id_error . ' }'
-        );
         $this->ctx
              ->method('searchHashtagId')
-             ->willReturn($response);
+             ->will($this->throwException(new Exception()));
 
         // init api
         $api = new Ig_Api($this->token);
         $api = $api->setContext($this->ctx);
 
         // assert
-        $expected = json_decode($hashtag_id_error);
-        $this->assertEquals(
-            $expected,
-            $api->init()
-                ->searchHashtag($name)
-                ->error
-        );
+        $this->expectException(Exception::class);
+        $api->init()->searchHashtag($name);
     }
 
     public function testSearchHashtag_ErrorHandling_Medias()
     {
         $name = 'this_is_fake_name';
-        $hashtag_id = 'this_is_fake_hashtag_id';
-        $recent_medias_error =
-            '{ "message" : "could not get recent medias" }';
-
-        // set method return
-        $this->ctx
-             ->method('searchHashtagId')
-             ->willReturn($hashtag_id);
-
-        $response = json_decode(
-            '{ "error" : ' . $recent_medias_error . ' }'
-        );
         $this->ctx
              ->method('getRecentMediasByHashtag')
-             ->willReturn($response);
+             ->will($this->throwException(new Exception()));
 
         // init api
         $api = new Ig_Api($this->token);
         $api = $api->setContext($this->ctx);
 
         // assert
-        $expected = json_decode($recent_medias_error);
-        $this->assertEquals(
-            $expected,
-            $api->init()
-                ->searchHashtag($name)
-                ->error
-        );
-    }
-    public function testHasError()
-    {
-        $pages_id_error =
-            '{ "message" : "could not get pages id" }';
-
-        // set method return
-        $response = json_decode(
-            '{ "error" : ' . $pages_id_error . ' }'
-        );
-        $this->ctx
-             ->method('getUserPagesId')
-             ->willReturn($response);
-
-        // init api
-        $api = new Ig_Api($this->token);
-        $api = $api->setContext($this->ctx);
-
-        // assert
-        $this->assertTrue(
-            $api->init()
-                ->hasError()
-        );
+        $this->expectException(Exception::class);
+        $api->init()->searchHashtag($name);
     }
 }

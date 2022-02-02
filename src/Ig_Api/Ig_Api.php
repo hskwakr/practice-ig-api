@@ -4,6 +4,9 @@ namespace Ig_Api;
 
 require_once 'Ig_Api_Context.php';
 require_once 'Http_Client.php';
+
+use Exception;
+use Throwable;
 use Ig_Api\Ig_Api_Context;
 use Ig_Api\Http_Client;
 
@@ -15,8 +18,6 @@ class Ig_Api
     // instagram api context
     private $ctx;
 
-    // error massage from api
-    public $error;
     // user pages id for facebook pages
     public $pages_id;
     // user id for instagram business account
@@ -45,18 +46,6 @@ class Ig_Api
         return $this;
     }
 
-
-    /**
-     * Check whether has error or not.
-     *
-     * @return bool:    true    error
-     *                  false   no error
-     */
-    public function hasError()
-    {
-        return !empty($this->error);
-    }
-
     /**
      * Init facebook graph api.
      *
@@ -64,27 +53,16 @@ class Ig_Api
      */
     public function init()
     {
-        // Ignore error
-        if (!empty($this->error)) {
-            $this->error = null;
-        }
+        try {
+            // Get user pages id for facebook pages
+            $this->pages_id = $this->ctx
+                                   ->getUserPagesId();
 
-        // Get user pages id for facebook pages
-        $this->pages_id = $this->ctx
-                               ->getUserPagesId();
-        // error handling
-        if (isset($this->pages_id->error)) {
-            $this->error = $this->pages_id->error;
-            return $this;
-        }
-
-        // Get user id for instagram business account
-        $this->user_id = $this->ctx
-                              ->getIgUserId($this->pages_id);
-        // error handling
-        if (isset($this->user_id->error)) {
-            $this->error = $this->user_id->error;
-            return $this;
+            // Get user id for instagram business account
+            $this->user_id = $this->ctx
+                                  ->getIgUserId($this->pages_id);
+        } catch (Exception $e) {
+            $this->error('Failed to init', $e);
         }
 
         return $this;
@@ -98,34 +76,32 @@ class Ig_Api
      */
     public function searchHashtag(string $name)
     {
-        // if it has already error, return
-        if (!empty($this->error)) {
-            return $this;
-        }
+        try {
+            // Get hashtag id in instagram by hashtag name
+            $this->hashtag_id =
+                $this->ctx
+                     ->searchHashtagId($this->user_id, $name);
 
-        // Get hashtag id in instagram by hashtag name
-        $this->hashtag_id =
-            $this->ctx
-                 ->searchHashtagId($this->user_id, $name);
-        // error handling
-        if (isset($this->hashtag_id->error)) {
-            $this->error = $this->hashtag_id->error;
-            return $this;
-        }
-
-        // Get recent medias that has specific hashtag in instagram
-        $this->recent_medias =
-            $this->ctx
-                 ->getRecentMediasByHashtag(
-                     $this->user_id,
-                     $this->hashtag_id
-                 );
-        // error handling
-        if (isset($this->recent_medias->error)) {
-            $this->error = $this->recent_medias->error;
-            return $this;
+            // Get recent medias that has specific hashtag in instagram
+            $this->recent_medias =
+                $this->ctx
+                     ->getRecentMediasByHashtag(
+                         $this->user_id,
+                         $this->hashtag_id
+                     );
+        } catch (Exception $e) {
+            $this->error('Failed to search hashtag', $e);
         }
 
         return $this;
+    }
+
+    /**
+     * Error handling
+     * throw exception with threw exception
+     */
+    private function error(string $msg, Throwable $e)
+    {
+        throw new Exception($msg . ': ', 0, $e->getPrevious());
     }
 }
