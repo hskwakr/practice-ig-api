@@ -29,7 +29,7 @@ function searchHashtag($name)
         $res = $api->init()->searchHashtag($name);
         return $res->recent_medias;
     } catch (Exception $e) {
-        echo $e->__toString();
+        echo $e->getMessage();
         return null;
     }
 }

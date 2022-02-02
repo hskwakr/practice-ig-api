@@ -103,7 +103,7 @@ class Ig_Api
     private function error(string $msg, Throwable $e)
     {
         throw new Exception(
-            $msg . ': ' . $e->__toString(),
+            $msg . ': ' . $e->getMessage(),
             0,
             $e->getPrevious()
         );
