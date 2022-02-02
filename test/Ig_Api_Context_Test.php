@@ -50,7 +50,7 @@ final class Ig_Api_Context_Test extends TestCase
     {
         // fake response
         $response = json_decode(
-            '{ "error" : "something wrong" }'
+            '{ "error" : { "message" : "something wrong" } }'
         );
 
         // set method return
@@ -92,7 +92,7 @@ final class Ig_Api_Context_Test extends TestCase
 
         // fake response
         $response = json_decode(
-            '{ "error" : "something wrong" }'
+            '{ "error" : { "message" : "something wrong" } }'
         );
 
         // set method return
@@ -136,7 +136,7 @@ final class Ig_Api_Context_Test extends TestCase
 
         // fake response
         $response = json_decode(
-            '{ "error" : "something wrong" }'
+            '{ "error" : { "message" : "something wrong" } }'
         );
 
         // set method return
@@ -191,7 +191,7 @@ final class Ig_Api_Context_Test extends TestCase
 
         // fake response
         $response = json_decode(
-            '{ "error" : "something wrong" }'
+            '{ "error" : { "message" : "something wrong" } }'
         );
 
         // set method return
