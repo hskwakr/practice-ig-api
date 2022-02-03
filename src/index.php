@@ -34,6 +34,36 @@ function searchHashtag($name)
     }
 }
 
+function display($medias)
+{
+    // header
+
+    // body
+    foreach ($medias as $m) {
+        //printJson($m);
+        switch ($m->media_type) {
+        case 'IMAGE':
+            echo '<a href="' . $m->permalink . '">';
+            echo '<img src="' . $m->media_url . '">';
+            echo '</a>';
+            break;
+
+        case 'VIDEO':
+            echo '<a href="' . $m->permalink . '">';
+            echo '<video src="'
+                . $m->media_url
+                . '" autoplay="" muted="" playsinline="" loop=""></video>';
+            echo '</a>';
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    // footer
+}
+
 // For DEBUG
 function printJson($json)
 {
@@ -47,5 +77,6 @@ function printJson($json)
 //*************************************
 $data = searchHashtag('hello');
 if (isset($data)) {
-    printJson($data);
+    //printJson($data);
+    display($data);
 }
